@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    tools:context=".RegisterActivity">
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="注册"
+        android:textSize="50dp"
+        android:gravity="center"
+        android:layout_marginTop="50pt"/>
+    <EditText
+        android:id="@+id/txtUsername"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/tv1"
+        android:textColor="#000000"
+        android:hint="用户名"
+        />
+
+    <RadioGroup
+        android:id="@+id/RG1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtUsername"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtUsername"
+            android:baselineAligned="false"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:text="男" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtUsername"
+            android:text="女" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/txtPassword1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="16sp"
+        android:layout_below="@id/RG1"
+        android:layout_marginTop="10dp"
+        android:inputType="textPassword"
+        android:textColor="#000000"
+        android:hint="密码"
+        />
+    <EditText
+        android:id="@+id/txtPassword2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="16sp"
+        android:layout_below="@id/txtPassword1"
+        android:layout_marginTop="10dp"
+        android:inputType="textPassword"
+        android:textColor="#000000"
+        android:hint="确认密码"
+        />
+    <TextView
+        android:id="@+id/txtBitthday"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        android:layout_below="@id/txtPassword2"
+        android:layout_marginTop="10dp"
+        android:textColor="#000000"
+        android:hint="生日"
+        />
+
+    <Button
+        android:id="@+id/Register"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/txtBitthday"
+        android:background="@drawable/btn_layout"
+        android:textColor="#ffffff"
+        android:layout_marginTop="13dp"
+        android:gravity="center"
+        android:text="注册"
+        android:textSize="24dp" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Register"
+        android:layout_marginTop="10dp"
+        >
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="有账号？现在"
+            android:layout_toLeftOf="@id/tv11"
+            android:textSize="20dp"
+            />
+        <TextView
+            android:id="@+id/tv11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="#29488f"
+            android:textSize="20dp"
+            android:text="登录"/>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
