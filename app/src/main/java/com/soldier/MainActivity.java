@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity implements TabHost.OnTabChan
         layoutInflater.inflate(R.layout.layout_tab1, TB.getTabContentView());
         layoutInflater.inflate(R.layout.layout_tab2, TB.getTabContentView());
 
-        TB.addTab(TB.newTabSpec("tab1").setIndicator("笔记", getResources().getDrawable(R.drawable.note)).setContent(R.id.LinearLayout1));
-        TB.addTab(TB.newTabSpec("tab2").setIndicator("资料", getResources().getDrawable(R.drawable.date)).setContent(R.id.LinearLayout2));
+        TB.addTab(TB.newTabSpec("tab1").setIndicator("笔记", getResources().getDrawable(R.drawable.ic_note)).setContent(R.id.LinearLayout1));
+        TB.addTab(TB.newTabSpec("tab2").setIndicator("资料", getResources().getDrawable(R.drawable.ic_userinfo)).setContent(R.id.LinearLayout2));
 
         Tab1TvUid = findViewById(R.id.UID);
         Tab1TvUName = findViewById(R.id.UserName);

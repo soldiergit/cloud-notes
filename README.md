@@ -17,22 +17,21 @@
 >>src   
 >>>main   
 >>>>java   
->>>>>com
->>>>>>soldier
->>>>>>>[AddNoteActivity.java](app/src/main/java/com/soldier/AddNoteActivity.java)(添加笔记逻辑代码)
->>>>>>>[FirstActivity.java](app/src/main/java/com/soldier/FirstActivity.java)(启动界面代码)
->>>>>>>[LoginActivity.java](app/src/main/java/com/soldier/LoginActivity.java)(登录代码代码)
->>>>>>>[MainActivity.java](app/src/main/java/com/soldier/MainActivity.java)(程序主界面代码)
->>>>>>>[MyListAdapter.java](app/src/main/java/com/soldier/MyListAdapter.java)(笔记更改逻辑代码)
->>>>>>>[MyListView.java](app/src/main/java/com/soldier/MyListView.java)(自定义控件完成下拉刷新功能)
->>>>>>>[RegisterActivity.java](app/src/main/java/com/soldier/RegisterActivity.java)(注册界面代码)
->>>>>>>[StartActivity.java](app/src/main/java/com/soldier/StartActivity.java)(启动界面动画代码)
->>>>>>>util
->>>>>>>>[DBUtil.java](app/src/main/java/com/soldier/util/DBUtil.java)(数据库基本操作类)
+>>>>>com/soldier
+>>>>>>[AddNoteActivity.java](app/src/main/java/com/soldier/AddNoteActivity.java)(添加笔记逻辑代码)
+>>>>>>[FirstActivity.java](app/src/main/java/com/soldier/FirstActivity.java)(启动界面代码)
+>>>>>>[LoginActivity.java](app/src/main/java/com/soldier/LoginActivity.java)(登录代码代码)
+>>>>>>[MainActivity.java](app/src/main/java/com/soldier/MainActivity.java)(程序主界面代码)
+>>>>>>[MyListAdapter.java](app/src/main/java/com/soldier/MyListAdapter.java)(笔记更改逻辑代码)
+>>>>>>[MyListView.java](app/src/main/java/com/soldier/MyListView.java)(自定义控件完成下拉刷新功能)
+>>>>>>[RegisterActivity.java](app/src/main/java/com/soldier/RegisterActivity.java)(注册界面代码)
+>>>>>>[StartActivity.java](app/src/main/java/com/soldier/StartActivity.java)(启动界面动画代码)
+>>>>>>util
+>>>>>>>[DBUtil.java](app/src/main/java/com/soldier/util/DBUtil.java)(数据库基本操作类)
 >>>>
 >>>>res  
 >>>>>drawable
->>>>>>[start.xml](app/src/main/res/drawable/start.xml)(软件图标) 
+>>>>>>[ic_start.xml](app/src/main/res/drawable/ic_start.xml)(软件图标)
 >>>>>
 >>>>>layout
 >>>>>>[activity_add_note.xml](app/src/main/res/layout/activity_add_note.xml)(添加笔记界面布局代码)   
@@ -52,18 +51,22 @@
 ### 数据库文件及ER图
 ##### 数据库创建文件--→[sql/cloud_notes.sql](cloud_notes.sql数据表)
 ##### 数据库ER图   
-![请重新加载](/appImage/DbERImage.png "数据库ER图")
+![点击前往下载](/appImage/DbERImage.png "数据库ER图")
 ## 项目截图
 ### APP图标   
-![请重新加载](/appImage/IconImage.png "APP图标")
+![点击前往下载](/appImage/AppImage.png "APP图标")
+### 启动动画
+![点击前往下载](/appImage/StartCartoon.png "启动动画")
 ### 启动界面
-![请重新加载](/appImage/LayoutStartImage1.png "启动界面")![请重新加载](/appImage/LayoutStartImage2.png "启动界面")
+![点击前往下载](/appImage/Start.png "启动界面")
 ### 注册界面
-![请重新加载](/appImage/LayoutRegisterImage.png "注册界面")
+![点击前往下载](/appImage/Register.png "注册界面")
 ### 登录界面
-![请重新加载](/appImage/LayoutLoginImage.png "登录界面")
+![点击前往下载](/appImage/Login.png "登录界面")
 ### 笔记列表界面
-![请重新加载](/appImage/LayoutTabHost1Image.png "笔记列表界面")
+![点击前往下载](/appImage/Note.png "笔记列表界面")
+### 笔记添加界面
+![点击前往下载](/appImage/NoteAdd.png "笔记添加界面")
 ### 用户资料界面
-![请重新加载](/appImage/LayoutTabHost2Image.png "用户资料界面")
+![点击前往下载](/appImage/UserInfo.png "用户资料界面")
 
