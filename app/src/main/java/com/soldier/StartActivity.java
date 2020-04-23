@@ -2,7 +2,9 @@ package com.soldier;
 
 import android.content.Intent;
 import android.os.Handler;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -10,6 +12,13 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.RelativeLayout;
 
+/**
+ * @Author soldier
+ * @Date 2020/4/23 7:21
+ * @Email:583406411@qq.com
+ * @Version 1.0
+ * @Description:启动界面动画代码
+ */
 public class StartActivity extends AppCompatActivity {
     private Handler handler = new Handler();
 
@@ -35,8 +44,8 @@ public class StartActivity extends AppCompatActivity {
         // 设置没有标题栏
         getSupportActionBar().hide();
 
-        RelativeLayout layoutSplash=(RelativeLayout) findViewById(R.id.activity_splash);
-        AlphaAnimation alphaAnimation=new AlphaAnimation(0.1f,1.0f);
+        RelativeLayout layoutSplash = (RelativeLayout) findViewById(R.id.activity_splash);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0.1f, 1.0f);
         alphaAnimation.setDuration(1000);//设置动画播放时长1000毫秒（1秒）
         layoutSplash.startAnimation(alphaAnimation);
         //设置动画监听
@@ -45,6 +54,7 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onAnimationStart(Animation animation) {
             }
+
             //动画结束
             @Override
             public void onAnimationEnd(Animation animation) {
@@ -61,11 +71,13 @@ public class StartActivity extends AppCompatActivity {
                 }, 1000);
 //
             }
+
             @Override
             public void onAnimationRepeat(Animation animation) {
             }
         });
     }
+
     /**
      * 前往注册、登录主页
      */

@@ -5,24 +5,35 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.soldier.util.DBUtil;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @Author soldier
+ * @Date 2020/4/23 7:21
+ * @Email:583406411@qq.com
+ * @Version 1.0
+ * @Description:添加笔记逻辑代码
+ */
 public class AddNoteActivity extends AppCompatActivity {
     static String uid;
     static String _NData = "";
-    static Bundle bundle ;
-    private TextView BtnSave,BtnBack;
-    private EditText EtTitle,EtNote;
+    static Bundle bundle;
+    private TextView BtnSave, BtnBack;
+    private EditText EtTitle, EtNote;
     public String _NTitle;
     public String _Note = null;
     public String _NDate = null;
@@ -58,13 +69,14 @@ public class AddNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validate();
-                if (GetNote()){
-                    UpdataNote();
-                }else if(validate()){
-                    PushaNote();
+                if (GetNote()) {
+                    UpdateNote();
+                } else if (validate()) {
+                    PushNote();
                 }
             }
         });
+
         /**
          * 退出按钮事件
          */
@@ -88,7 +100,7 @@ public class AddNoteActivity extends AppCompatActivity {
     /**
      * 获取控件现有内容
      */
-    private void getValues(){
+    private void getValues() {
         _NTitle = EtTitle.getText().toString().trim();
         _Note = EtNote.getText().toString().trim();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// HH:mm:ss
@@ -97,10 +109,11 @@ public class AddNoteActivity extends AppCompatActivity {
     }
 
     /**
-     *  获取用户UID 用于保存新笔记
+     * 获取用户UID 用于保存新笔记
+     *
      * @return
      */
-    private boolean GetUserUid(){
+    private boolean GetUserUid() {
         SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
         uid = sharedPreferences.getString("uid", "");//(key,若无数据需要赋的值);
         if (!uid.equals(""))
@@ -110,16 +123,15 @@ public class AddNoteActivity extends AppCompatActivity {
 
     /**
      * 获取数据并验证数据合法性
-     * @return
      */
-    public boolean validate(){
+    public boolean validate() {
         getValues();
-        if(_NTitle.equals("")){
-            Toast.makeText(AddNoteActivity.this,"标题不能为空！",Toast.LENGTH_LONG).show();
+        if (_NTitle.equals("")) {
+            Toast.makeText(AddNoteActivity.this, "标题不能为空！", Toast.LENGTH_LONG).show();
             return false;
         }
-        if(_Note.equals("")){
-            Toast.makeText(AddNoteActivity.this,"内容不能为空！",Toast.LENGTH_LONG).show();
+        if (_Note.equals("")) {
+            Toast.makeText(AddNoteActivity.this, "内容不能为空！", Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
@@ -128,21 +140,22 @@ public class AddNoteActivity extends AppCompatActivity {
     /**
      * 提交新建笔记逻辑
      */
-    private void PushaNote() {
+    private void PushNote() {
         final Handler handler = new Handler();
         getValues();
         new Thread(
                 new Runnable() {
                     @Override
                     public void run() {
-                        DBService dbService = new DBService();
+                        DBUtil dbUtil = new DBUtil();
                         try {
-                            Connection conn = dbService.getConnection();
-                            String sql1 = "INSERT INTO `ndata` (`UID`,`Title`,`Data`,`DateTime`) values ("+uid+",'"+_NTitle+"','"+_Note+"','"+_NDate+"');";
-                            if(dbService.execUpdate(sql1,null) > 0) {
+                            Connection conn = dbUtil.getConnection();
+                            String sql1 = "INSERT INTO `ndata` (`UID`,`Title`,`Data`,`DateTime`) values (" + uid + ",'" + _NTitle + "','" + _Note + "','" + _NDate + "');";
+                            System.out.println(sql1);
+                            if (dbUtil.execUpdate(sql1, null) > 0) {
                                 PushSuccess();
                             }
-                            dbService.close(null, null, conn);
+                            dbUtil.close(null, null, conn);
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
                         } catch (SQLException e) {
@@ -155,11 +168,11 @@ public class AddNoteActivity extends AppCompatActivity {
     /**
      * 新建提交成功逻辑
      */
-    private void PushSuccess(){
+    private void PushSuccess() {
         Looper.prepare();
         Intent intent = new Intent(AddNoteActivity.this, MainActivity.class);
         startActivity(intent);
-        Toast.makeText(AddNoteActivity.this,"保存成功",Toast.LENGTH_LONG).show();
+        Toast.makeText(AddNoteActivity.this, "保存成功", Toast.LENGTH_LONG).show();
         finish();
         Looper.loop();
     }
@@ -167,22 +180,23 @@ public class AddNoteActivity extends AppCompatActivity {
     /**
      * 更新已有笔记逻辑
      */
-    private void UpdataNote(){
+    private void UpdateNote() {
         getValues();
         new Thread(
                 new Runnable() {
                     @Override
                     public void run() {
-                        //创建DBService对象查询表数据，调用UserEquals()是否可以登录，并执行结果动作
-                        DBService dbService = new DBService();
+                        //创建DBUtil对象查询表数据，调用UserEquals()是否可以登录，并执行结果动作
+                        DBUtil dbUtil = new DBUtil();
                         try {
-                            Connection conn = dbService.getConnection();
+                            Connection conn = dbUtil.getConnection();
                             //String sql1 = "INSERT INTO `ndata` (`UID`,`Title`,`Data`,`DateTime`) values ("+uid+",'"+_NTitle+"','"+_Note+"','"+_NDate+"');";
-                            String sql1 = "update `test`.`ndata` set `Title`='"+_NTitle+"',`Data`='"+_Note+"',`DateTime`='"+_NDate+"' where `Ndata`="+_NData+";";
-                            if(dbService.execUpdate(sql1,null) > 0) {
+                            String sql1 = "update `test`.`ndata` set `Title`='" + _NTitle + "',`Data`='" + _Note + "',`DateTime`='" + _NDate + "' where `Ndata`=" + _NData + ";";
+                            System.out.println(sql1);
+                            if (dbUtil.execUpdate(sql1, null) > 0) {
                                 UpdataSuccess();
                             }
-                            dbService.close(null, null, conn);
+                            dbUtil.close(null, null, conn);
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
                         } catch (SQLException e) {
@@ -195,26 +209,29 @@ public class AddNoteActivity extends AppCompatActivity {
     /**
      * 更新已有笔记成功逻辑
      */
-    private void UpdataSuccess(){
+    private void UpdataSuccess() {
         Looper.prepare();
         Intent intent = new Intent(AddNoteActivity.this, MainActivity.class);
         startActivity(intent);
-        Toast.makeText(AddNoteActivity.this,"更新成功",Toast.LENGTH_LONG).show();
+        Toast.makeText(AddNoteActivity.this, "更新成功", Toast.LENGTH_LONG).show();
         finish();
         Looper.loop();
     }
 
     /**
      * 获取内存中笔记ID和内容
+     *
      * @return 如果有ID则返回true
      */
-    private boolean GetNote(){
+    private boolean GetNote() {
         SharedPreferences sharedPreferences = getSharedPreferences("nData", Context.MODE_PRIVATE);
         _NTitle = sharedPreferences.getString("Title", "");//(key,若无数据需要赋的值);
         _Note = sharedPreferences.getString("Data", "");
         _NData = bundle.getString("Nid");
 
-        if (!_NData.equals("")){return true;}
+        if (!_NData.equals("")) {
+            return true;
+        }
         return false;
     }
 
@@ -222,7 +239,7 @@ public class AddNoteActivity extends AppCompatActivity {
      * 清除内存逻辑
      * 用于测界面消失时将内存清除
      */
-    public void MyClear(){
+    public void MyClear() {
         uid = null;
         _NData = "";
         SharedPreferences sharedPreferences = getSharedPreferences("nData", Context.MODE_PRIVATE);

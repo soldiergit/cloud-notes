@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Looper;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +22,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.soldier.util.DBUtil;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -29,12 +33,19 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @Author soldier
+ * @Date 2020/4/23 7:21
+ * @Email:583406411@qq.com
+ * @Version 1.0
+ * @Description:注册界面代码
+ */
 public class RegisterActivity extends AppCompatActivity {
     //声明控件
     private Button btnRegister;
-    private EditText UserName,Password1,Password2;
+    private EditText UserName, Password1, Password2;
     private RadioGroup RG;
-    private TextView tv,tv11;
+    private TextView tv, tv11;
     //声明全局变量
     private SharedPreferences sharedPreferences = null;
     String _UserName = null;
@@ -44,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
     String _NowDate = null;
     String _Birthday = null;
     boolean validateUserName = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +110,6 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     protected void onResume() {
@@ -108,7 +119,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                View view = LayoutInflater.from(RegisterActivity.this).inflate(R.layout.layout_datetime,null);
+                View view = LayoutInflater.from(RegisterActivity.this).inflate(R.layout.layout_datetime, null);
 
                 Button btnLoglin = view.findViewById(R.id.btnGetDt);
                 final DatePicker dt = view.findViewById(R.id.dt);
@@ -118,7 +129,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         //Toast.makeText(MainActivity.this, "Test",Toast.LENGTH_LONG).show();
                         int i = dt.getMonth() + 1;
-                        _Birthday = dt.getYear()+"-"+i+"-"+dt.getDayOfMonth();
+                        _Birthday = dt.getYear() + "-" + i + "-" + dt.getDayOfMonth();
                         tv.setText(_Birthday);
                     }
                 });
@@ -133,7 +144,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton radioButton = group.findViewById(checkedId);
                 _Sex = radioButton.getText().toString().trim();
-                Toast.makeText(RegisterActivity.this, _Sex,Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterActivity.this, _Sex, Toast.LENGTH_LONG).show();
             }
         });
         //注册的点击事件
@@ -143,7 +154,7 @@ public class RegisterActivity extends AppCompatActivity {
                 getValues();
                 //for (int i = 0;i < 2;i++)
                 validateUserName(_UserName);
-                if(validate()){
+                if (validate()) {
                     Register();
 //                    while (validateUserName)
 //                        SetUserName(_UserName);
@@ -152,13 +163,13 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
     /**
-     *  获得表单的值
+     * 获得表单的值
      */
-    public void getValues(){
+    public void getValues() {
         //获取用户名
         _UserName = UserName.getText().toString().trim();
-
 
         //密码获取
         _Password1 = Password1.getText().toString().trim();
@@ -167,45 +178,41 @@ public class RegisterActivity extends AppCompatActivity {
         //获取当前系统时间系统日期
         Calendar calendar = Calendar.getInstance();
         int NYear = calendar.get(Calendar.YEAR);//年
-        int NMonth = calendar.get(Calendar.MONTH)+1;//月
+        int NMonth = calendar.get(Calendar.MONTH) + 1;//月
         int NDay = calendar.get(Calendar.DAY_OF_MONTH);//日
-        _NowDate = NYear+"-"+NMonth+"-"+NDay;
+        _NowDate = NYear + "-" + NMonth + "-" + NDay;
     }
+
     /**
-     *   验证表单内的数据是否合法
+     * 验证表单内的数据是否合法
      */
     public boolean validate() {
         getValues();
         //此处调用函数验证数据库用户名不能重复
-        if (!validateUserName){
-//            MyToast("用户名已经有");
-            Toast.makeText(RegisterActivity.this,"用户名已经有！",Toast.LENGTH_LONG).show();
+        if (!validateUserName) {
+            Toast.makeText(RegisterActivity.this, "用户名已经有！", Toast.LENGTH_LONG).show();
             return false;
         }
 
         //验证密码合法性
-        if (_Password1.length() < 6){
-//            MyToast("密码不能小于6位");
-            Toast.makeText(RegisterActivity.this,"密码不能小于6位！",Toast.LENGTH_LONG).show();
+        if (_Password1.length() < 6) {
+            Toast.makeText(RegisterActivity.this, "密码不能小于6位！", Toast.LENGTH_LONG).show();
             return false;
         }
-        if (!_Password1.equals(_Password2)){
-//            MyToast("两次密码输入不同");
-            Toast.makeText(RegisterActivity.this,"两次密码输入不同！",Toast.LENGTH_LONG).show();
+        if (!_Password1.equals(_Password2)) {
+            Toast.makeText(RegisterActivity.this, "两次密码输入不同！", Toast.LENGTH_LONG).show();
             return false;
         }
 
         //验证生日合法性
-        if(_Birthday == null){
-//            MyToast("您没有选择您的生日");
-            Toast.makeText(RegisterActivity.this,"您没有选择您的生日！",Toast.LENGTH_LONG).show();
+        if (_Birthday == null) {
+            Toast.makeText(RegisterActivity.this, "您没有选择您的生日！", Toast.LENGTH_LONG).show();
             return false;
         }
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            if(dateFormat.parse(_Birthday).getTime() > dateFormat.parse(_NowDate).getTime()){
-//                MyToast("生日选择错误");
-                Toast.makeText(RegisterActivity.this,"生日选择错误",Toast.LENGTH_LONG).show();
+            if (dateFormat.parse(_Birthday).getTime() > dateFormat.parse(_NowDate).getTime()) {
+                Toast.makeText(RegisterActivity.this, "生日选择错误", Toast.LENGTH_LONG).show();
                 return false;
             }
         } catch (ParseException e) {
@@ -223,24 +230,24 @@ public class RegisterActivity extends AppCompatActivity {
                 new Runnable() {
                     @Override
                     public void run() {
-                        DBService dbService = new DBService();
+                        DBUtil dbUtil = new DBUtil();
                         try {
-                            Connection conn = dbService.getConnection();
-                            List<Map<String, Object>> list = dbService.execQuery("select Name from user where Name = \"" + UserName + "\"", null);
-                            if (list.size() == 0){
+                            Connection conn = dbUtil.getConnection();
+                            List<Map<String, Object>> list = dbUtil.execQuery("select Name from user where Name = \"" + UserName + "\"", null);
+                            if (list.size() == 0) {
                                 validateUserName = true;
-                            }else {
+                            } else {
                                 validateUserName = false;
                             }
                             System.out.println(list.size());
-                            System.out.println(validateUserName+"");
+                            System.out.println(validateUserName + "");
                             for (Map<String, Object> m : list) {
-                                for (String k : m.keySet()){
-                                  System.out.println(k + " : " + m.get(k)+"\t\t\t\t");
+                                for (String k : m.keySet()) {
+                                    System.out.println(k + " : " + m.get(k) + "\t\t\t\t");
                                 }
                             }
                             //关闭数据库对象
-                            dbService.close(null, null, conn);
+                            dbUtil.close(null, null, conn);
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
                         } catch (SQLException e) {
@@ -253,23 +260,22 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * 注册逻辑
      */
-    private void Register(){
+    private void Register() {
         new Thread(
                 new Runnable() {
                     @Override
                     public void run() {
-
-                        //创建DBService对象查询表数据，调用UserEquals()是否可以登录，并执行结果动作
-                        DBService dbService = new DBService();
+                        //创建dbUtil对象查询表数据，调用UserEquals()是否可以登录，并执行结果动作
+                        DBUtil dbUtil = new DBUtil();
                         try {
-                            Connection conn = dbService.getConnection();
-                            String sql1 = "INSERT INTO `user`(`Name`,`Password`) values(\""+_UserName+"\",\""+_Password1+"\");";
-                            String sql2 = "INSERT INTO `udata` (`UID`,`Sex`,`Birthday`,`RDate`) values ((select UID from user where Name = '"+_UserName+"'),'"+_Sex+"','"+_Birthday+"','"+_NowDate+"');";
-                            if(dbService.execUpdate(sql1,null) > 0 && dbService.execUpdate(sql2,null) > 0){
+                            Connection conn = dbUtil.getConnection();
+                            String sql1 = "INSERT INTO `user`(`Name`,`Password`) values(\"" + _UserName + "\",\"" + _Password1 + "\");";
+                            String sql2 = "INSERT INTO `udata` (`UID`,`Sex`,`Birthday`,`RDate`) values ((select UID from user where Name = '" + _UserName + "'),'" + _Sex + "','" + _Birthday + "','" + _NowDate + "');";
+                            if (dbUtil.execUpdate(sql1, null) > 0 && dbUtil.execUpdate(sql2, null) > 0) {
                                 SetUserName(_UserName);
-                            }else  MyToast(_UserName+":注册失败");
+                            } else MyToast(_UserName + ":注册失败");
 
-                            dbService.close(null, null, conn);
+                            dbUtil.close(null, null, conn);
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
                         } catch (SQLException e) {
@@ -280,10 +286,11 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     /**
-     *  用于记录注册的用户名,并打开登录界面
+     * 用于记录注册的用户名,并打开登录界面
+     *
      * @param username 用户名
      */
-    private void SetUserName(String username){
+    private void SetUserName(String username) {
         sharedPreferences = getSharedPreferences("Ruser", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("RName", username);
@@ -292,25 +299,27 @@ public class RegisterActivity extends AppCompatActivity {
         Looper.prepare();
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
-        Toast.makeText(RegisterActivity.this,username+":注册成功",Toast.LENGTH_LONG).show();
+        Toast.makeText(RegisterActivity.this, username + ":注册成功", Toast.LENGTH_LONG).show();
         finish();
         Looper.loop();
     }
 
     /**
-     *这个函数用于把Toast包含到线程里
+     * 这个函数用于把Toast包含到线程里
      */
-    private void MyToast(String text){
+    private void MyToast(String text) {
         Looper.prepare();
-        Toast.makeText(RegisterActivity.this,text,Toast.LENGTH_LONG).show();
+        Toast.makeText(RegisterActivity.this, text, Toast.LENGTH_LONG).show();
         Looper.loop();
     }
+
     /**
-     *  状态栏沉浸
+     * 状态栏沉浸
+     *
      * @param hasFocus
      */
     @Override
-    public void onWindowFocusChanged (boolean hasFocus) {
+    public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus && Build.VERSION.SDK_INT >= 19) {
             View decorView = getWindow().getDecorView();

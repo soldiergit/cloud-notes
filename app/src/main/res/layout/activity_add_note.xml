@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--添加笔记界面布局代码-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true">
 
         <TextView
             android:id="@+id/Save"
@@ -38,20 +39,22 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_below="@+id/topbar"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentLeft="true">
 
         <RelativeLayout
             android:id="@+id/RNoteTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true">
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true">
 
+            <!--android:layout_below="@id/tv_9"-->
             <EditText
                 android:id="@+id/Title"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@id/tv_9"
                 android:hint="标题"
                 android:textColor="#000000"
                 android:textSize="16sp" />
@@ -63,6 +66,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
             android:layout_below="@+id/RNoteTitle"
             android:layout_weight="1">
 
@@ -72,6 +76,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
                 android:enabled="true"
                 android:gravity="top"
                 android:hint="内容"

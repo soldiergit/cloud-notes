@@ -1,28 +1,32 @@
 package com.soldier;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.soldier.util.DBUtil;
+
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public  class MyListAdapter extends BaseAdapter{
+/**
+ * @Author soldier
+ * @Date 2020/4/23 7:21
+ * @Email:583406411@qq.com
+ * @Version 1.0
+ * @Description:笔记更改逻辑代码
+ */
+public class MyListAdapter extends BaseAdapter {
     private static List<Map<String, Object>> list;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     ViewHolder holder = null;
     static int count;
-
-
 
     class ViewHolder {
         public TextView Title, Note, Date;
@@ -50,7 +54,7 @@ public  class MyListAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (list == null){
+        if (list == null) {
             GetNote(MainActivity.uid);
         }
         //GetNote();
@@ -74,18 +78,18 @@ public  class MyListAdapter extends BaseAdapter{
 
     //SELECT * FROM `test`.`ndata` where UID = 60 ORDER BY `Ndata` DESC  LIMIT 0,10 ;
     //对获取笔记列表SQL进行分页
-    public static void GetNote(final String Uid){
+    public static void GetNote(final String Uid) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                DBService dbService = new DBService();
+                DBUtil dbUtil = new DBUtil();
                 try {
-                    Connection conn = dbService.getConnection();
-                    List<Map<String, Object>> list1 = dbService.execQuery("select * from ndata where UID = " + Uid , null);
+                    Connection conn = dbUtil.getConnection();
+                    List<Map<String, Object>> list1 = dbUtil.execQuery("select * from ndata where UID = " + Uid, null);
                     list = list1;
                     count = list.size();
                     //关闭数据库对象
-                    dbService.close(null, null, conn);
+                    dbUtil.close(null, null, conn);
 
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();

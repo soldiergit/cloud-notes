@@ -15,11 +15,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.soldier.util.DBUtil;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @Author soldier
+ * @Date 2020/4/23 7:21
+ * @Email:583406411@qq.com
+ * @Version 1.0
+ * @Description:登录代码代码
+ */
 public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private EditText EtUsername,EtPassword;
@@ -158,11 +167,11 @@ public class LoginActivity extends AppCompatActivity {
                         //判断用户名和密码是否正确
                         if (username.equals("")){MyToast("请输入用户名！！！"); return;}
                         if (password.length() < 6){MyToast("密码小于6位"); return;}
-                        //创建DBService对象查询表数据，调用UserEquals()是否可以登录，并执行结果动作
-                        DBService dbService = new DBService();
+                        //创建DBUtil对象查询表数据，调用UserEquals()是否可以登录，并执行结果动作
+                        DBUtil dbUtil = new DBUtil();
                         try {
-                            Connection conn = dbService.getConnection();
-                            List<Map<String, Object>> list = dbService.execQuery("select * from user;", null);
+                            Connection conn = dbUtil.getConnection();
+                            List<Map<String, Object>> list = dbUtil.execQuery("select * from user;", null);
                             int i = UserEquals(list, username, password);
 
                             if (i == 0) {
@@ -180,7 +189,7 @@ public class LoginActivity extends AppCompatActivity {
                                 MyToast(username + ":的密码错误");
                             }
                             //关闭数据库对象
-                            dbService.close(null, null, conn);
+                            dbUtil.close(null, null, conn);
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
                         } catch (SQLException e) {

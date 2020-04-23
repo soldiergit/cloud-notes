@@ -1,4 +1,4 @@
-package com.soldier;
+package com.soldier.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,15 +11,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DBService {
+/**
+ * @Author soldier
+ * @Date 2020/4/23 7:12
+ * @Email:583406411@qq.com
+ * @Version 1.0
+ * @Description:
+ */
+public class DBUtil {
 
-    String driver = "com.mysql.jdbc.Driver" ;// 驱动名称
-    String url = "jdbc:mysql://rm-uf6k5d9yj8dt4h0z3lo.mysql.rds.aliyuncs.com:3306/test" ;// 连接字符串
-    String username = "root" ;// 用户名
-    String password = "Wx1262148122" ;// 密码
-    Connection con = null ;// 连接对象
-    PreparedStatement pstmt = null ;// 语句对象
-    ResultSet rs = null ;// 结果集对象
+    private static final String driver = "com.mysql.jdbc.Driver";
+    private static final String url = "jdbc:mysql://116.62.48.112:3306/cloud_notes";
+    private static final String username = "admin";
+    private static final String password = "123456";
+    private Connection con = null;// 连接对象
+    private PreparedStatement pstmt = null;// 语句对象
+    private ResultSet rs = null;// 结果集对象
 
     /**
      * 获得连接对象
@@ -28,10 +35,10 @@ public class DBService {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public Connection getConnection() throws ClassNotFoundException,SQLException {
+    public Connection getConnection() throws ClassNotFoundException, SQLException {
         Class.forName(driver);
-        con = DriverManager.getConnection( url , username , password );
-        return con ;
+        con = DriverManager.getConnection(url, username, password);
+        return con;
     }
 
 
@@ -45,7 +52,6 @@ public class DBService {
             if (con != null)
                 con.close();
         } catch (SQLException e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
     }
@@ -53,33 +59,29 @@ public class DBService {
     /**
      * 执行更新
      *
-     * @param sql
-     *            传入的预设的 sql语句
-     * @param params
-     *            问号参数列表
-     *
+     * @param sql    传入的预设的 sql语句
+     * @param params 问号参数列表
      * @return 影响行数
      */
     public int execUpdate(String sql, Object[] params) {
         try {
-            this .getConnection();// 获得连接对象
-            this .pstmt = this. con .prepareStatement(sql);// 获得预设语句对象
+            this.getConnection();// 获得连接对象
+            this.pstmt = this.con.prepareStatement(sql);// 获得预设语句对象
 
             if (params != null) {
                 // 设置参数列表
-                for (int i = 0; i < params. length; i++) {
+                for (int i = 0; i < params.length; i++) {
                     // 因为问号参数的索引是从1开始，所以是i+1，将所有值都转为字符串形式，好让setObject成功运行
-                    this .pstmt .setObject(i + 1, params[i] + "" );
+                    this.pstmt.setObject(i + 1, params[i] + "");
                 }
             }
 
-            return this .pstmt .executeUpdate(); // 执行更新，并返回影响行数
+            return this.pstmt.executeUpdate(); // 执行更新，并返回影响行数
 
         } catch (ClassNotFoundException | SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
-            this .close( this. rs, this. pstmt , this .con );
+            this.close(this.rs, this.pstmt, this.con);
         }
         return 0;
     }
@@ -87,28 +89,26 @@ public class DBService {
     /**
      * 执行查询
      *
-     * @param sql
-     *            传入的预设的 sql语句
-     * @param params
-     *            问号参数列表
+     * @param sql    传入的预设的 sql语句
+     * @param params 问号参数列表
      * @return 查询后的结果
      */
     public List<Map<String, Object>> execQuery(String sql, Object[] params) {
 
         try {
-            this .getConnection();// 获得连接对象
-            this .pstmt = this. con .prepareStatement(sql);// 获得预设语句对象
+            this.getConnection();// 获得连接对象
+            this.pstmt = this.con.prepareStatement(sql);// 获得预设语句对象
 
             if (params != null) {
                 // 设置参数列表
-                for (int i = 0; i < params. length; i++) {
+                for (int i = 0; i < params.length; i++) {
                     // 因为问号参数的索引是从1开始，所以是i+1，将所有值都转为字符串形式，好让setObject成功运行
-                    this .pstmt .setObject(i + 1, params[i] + "" );
+                    this.pstmt.setObject(i + 1, params[i] + "");
                 }
             }
 
             // 执行查询
-            ResultSet rs = pstmt .executeQuery();
+            ResultSet rs = pstmt.executeQuery();
 
             List<Map<String, Object>> al = new ArrayList<Map<String, Object>>();
 
@@ -136,11 +136,10 @@ public class DBService {
             return al;
 
         } catch (ClassNotFoundException | SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
-            this .close( this. rs, this. pstmt , this .con );
+            this.close(this.rs, this.pstmt, this.con);
         }
-        return null ;
+        return null;
     }
 }

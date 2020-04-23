@@ -16,7 +16,14 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MyListView extends ListView implements AbsListView.OnScrollListener{
+/**
+ * @Author soldier
+ * @Date 2020/4/23 7:21
+ * @Email:583406411@qq.com
+ * @Version 1.0
+ * @Description:自定义控件完成下拉刷新功能
+ */
+public class MyListView extends ListView implements AbsListView.OnScrollListener {
     View header;
     int headerHight;
     TextView tip;
@@ -35,11 +42,11 @@ public class MyListView extends ListView implements AbsListView.OnScrollListener
 
     boolean isRemak;   //是否可以刷新
 
-    int state=0;            //当前header状态
-    final int NONE=0;     //正常状态
-    final int PULL=1;     //下拉状态
-    final int RELEASE=2;  //提示刷新状态
-    final int REFRESHING=3; //正在刷新状态
+    int state = 0;            //当前header状态
+    final int NONE = 0;     //正常状态
+    final int PULL = 1;     //下拉状态
+    final int RELEASE = 2;  //提示刷新状态
+    final int REFRESHING = 3; //正在刷新状态
 
     IRefreshen iRefreshen; //回调刷新接口
 
@@ -61,13 +68,13 @@ public class MyListView extends ListView implements AbsListView.OnScrollListener
     }
 
     /**
-     * @methodName: init
-     * @Description: 初始化信息
      * @param
      * @return
      * @throws
+     * @methodName: init
+     * @Description: 初始化信息
      */
-    private  void init(Context context) {
+    private void init(Context context) {
         //解析header布局文件
         header = LayoutInflater.from(context).inflate(R.layout.layout_header, null);
 
@@ -77,19 +84,18 @@ public class MyListView extends ListView implements AbsListView.OnScrollListener
         header.measure(width, hight);
 
         //获取头部的高度，用于后面隐藏我下拉
-        headerHight=header.getMeasuredHeight();
+        headerHight = header.getMeasuredHeight();
 
 
+        tip = (TextView) header.findViewById(R.id.tip);
+        time = (TextView) header.findViewById(R.id.time);
+        imageView = (ImageView) header.findViewById(R.id.header_image);
+        progressBar = (ProgressBar) header.findViewById(R.id.progressbar);
 
-        tip=(TextView)header.findViewById(R.id.tip);
-        time=(TextView)header.findViewById(R.id.time);
-        imageView=(ImageView)header.findViewById(R.id.header_image);
-        progressBar=(ProgressBar)header.findViewById(R.id.progressbar);
-
-        anim1=new RotateAnimation(0,180, RotateAnimation.RELATIVE_TO_SELF,0.5f, RotateAnimation.RELATIVE_TO_SELF,0.5f);
+        anim1 = new RotateAnimation(0, 180, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
         anim1.setDuration(500);
         anim1.setFillAfter(true);
-        anim2=new RotateAnimation(180,0, RotateAnimation.RELATIVE_TO_SELF,0.5f, RotateAnimation.RELATIVE_TO_SELF,0.5f);
+        anim2 = new RotateAnimation(180, 0, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
         anim2.setDuration(500);
         anim2.setFillAfter(true);
 
@@ -101,7 +107,6 @@ public class MyListView extends ListView implements AbsListView.OnScrollListener
         //添加监听
         this.setOnScrollListener(this);
     }
-
 
     /**
      * 根据传入的高度设置header的paddingtop
@@ -118,17 +123,16 @@ public class MyListView extends ListView implements AbsListView.OnScrollListener
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-        this.scrollState=scrollState;
+        this.scrollState = scrollState;
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        this.firstVisibleItem=firstVisibleItem;
+        this.firstVisibleItem = firstVisibleItem;
     }
 
-
     /**
-     *触摸事件处理，分三种情况，按下，移动，抬起
+     * 触摸事件处理，分三种情况，按下，移动，抬起
      * 按下：判断当前是否为listview顶部，如果是记录按下位置
      * 移动：调用onMove方法处理移动情况
      * 抬起：如果当前状态为提示刷新状态就对header进行更新，并调用刷新内容接口
@@ -136,24 +140,24 @@ public class MyListView extends ListView implements AbsListView.OnScrollListener
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
 
-        switch (ev.getAction()){
-            case  MotionEvent.ACTION_DOWN:
-                if(firstVisibleItem==0){
-                    isRemak=true;
-                    startY=(int)ev.getY();
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (firstVisibleItem == 0) {
+                    isRemak = true;
+                    startY = (int) ev.getY();
                 }
                 break;
-            case  MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_MOVE:
                 onMove(ev);
                 break;
-            case  MotionEvent.ACTION_UP:
-                if(state==RELEASE){
-                    state=REFRESHING;
+            case MotionEvent.ACTION_UP:
+                if (state == RELEASE) {
+                    state = REFRESHING;
                     refreshByState();//刷新header
                     iRefreshen.onRefresh(); //刷新listview
-                }else if(state==PULL){
-                    state=NONE;
-                    isRemak=false;
+                } else if (state == PULL) {
+                    state = NONE;
+                    isRemak = false;
                     refreshByState();
                 }
                 break;
@@ -165,37 +169,37 @@ public class MyListView extends ListView implements AbsListView.OnScrollListener
 
 
     /**
-     *触摸移动的时候判断移动的位置
+     * 触摸移动的时候判断移动的位置
      * 若下拉高过或低于设定的数值，则改变提示信息
      */
     private void onMove(MotionEvent ev) {
 
-        if(!isRemak){
+        if (!isRemak) {
             return;
         }
 
-        int tempY=(int) ev.getY();
-        int distance=tempY-startY;
-        int toPadding=distance-headerHight;
+        int tempY = (int) ev.getY();
+        int distance = tempY - startY;
+        int toPadding = distance - headerHight;
 
-        switch (state){
+        switch (state) {
             case NONE:
-                if(distance>0){
-                    state=PULL;
+                if (distance > 0) {
+                    state = PULL;
                     refreshByState();
                 }
                 break;
             case PULL:
                 toPadding(toPadding);
-                if(distance>(headerHight+150) && scrollState==SCROLL_STATE_TOUCH_SCROLL){
-                    state=RELEASE;
+                if (distance > (headerHight + 150) && scrollState == SCROLL_STATE_TOUCH_SCROLL) {
+                    state = RELEASE;
                     refreshByState();
                 }
                 break;
             case RELEASE:
                 toPadding(toPadding);
-                if(distance<(headerHight+150)){
-                    state=PULL;
+                if (distance < (headerHight + 150)) {
+                    state = PULL;
                     refreshByState();
                 }
                 break;
@@ -206,11 +210,11 @@ public class MyListView extends ListView implements AbsListView.OnScrollListener
 
 
     /**
-     *通过当前state状态改变header的显示布局
+     * 通过当前state状态改变header的显示布局
      */
     private void refreshByState() {
 
-        switch (state){
+        switch (state) {
             case NONE:
                 // imageView.clearAnimation();
                 toPadding(-headerHight);
@@ -242,28 +246,28 @@ public class MyListView extends ListView implements AbsListView.OnScrollListener
     }
 
 
-    public void setInterface(IRefreshen iRefreshen){
-        this.iRefreshen=iRefreshen;
+    public void setInterface(IRefreshen iRefreshen) {
+        this.iRefreshen = iRefreshen;
     }
 
-    public interface IRefreshen{
+    public interface IRefreshen {
         public void onRefresh();
     }
 
     /**
-     *刷新完成后调用此方法重新设置参数，并设置上次刷新时间
+     * 刷新完成后调用此方法重新设置参数，并设置上次刷新时间
      */
-    public void refreshComplete(){
-        state=NONE;
-        isRemak=false;
+    public void refreshComplete() {
+        state = NONE;
+        isRemak = false;
 
         refreshByState();
 
-        Date date=new Date(System.currentTimeMillis());
+        Date date = new Date(System.currentTimeMillis());
 
-        SimpleDateFormat format=new SimpleDateFormat("yy年mm月dd日 HH:MM:SS");
+        SimpleDateFormat format = new SimpleDateFormat("yy年mm月dd日 HH:MM:SS");
 
-        String time=format.format(date);
+        String time = format.format(date);
 
         this.time.setText(time);
 

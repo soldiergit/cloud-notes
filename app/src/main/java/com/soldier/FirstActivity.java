@@ -7,7 +7,9 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
@@ -17,7 +19,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-
+/**
+ * @Author soldier
+ * @Date 2020/4/23 7:21
+ * @Email:583406411@qq.com
+ * @Version 1.0
+ * @Description:启动界面代码
+ */
 public class FirstActivity extends AppCompatActivity {
     private long exitTime;
     private Button tvRegister;
@@ -42,7 +50,7 @@ public class FirstActivity extends AppCompatActivity {
         tvRegister = findViewById(R.id.tv_register);
         ivLogo = findViewById(R.id.imageView);
         //查找是否登录过如果登陆过则跳过登录界面
-        if(GetUserSharedPreferences()){
+        if (GetUserSharedPreferences()) {
             Intent intent = new Intent(FirstActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -65,16 +73,17 @@ public class FirstActivity extends AppCompatActivity {
 
 
     /**
-     *  如果已经登录过返回true
-     *  未登陆过则返回false
+     * 如果已经登录过返回true
+     * 未登陆过则返回false
+     *
      * @return
      */
-    private boolean GetUserSharedPreferences(){
+    private boolean GetUserSharedPreferences() {
         SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "");//(key,若无数据需要赋的值)
         String password = sharedPreferences.getString("password", "");
 
-        if(!username.equals("") && !password.equals(""))
+        if (!username.equals("") && !password.equals(""))
             return true;
         return false;
     }
