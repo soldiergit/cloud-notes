@@ -51,7 +51,7 @@
 ### 数据库文件及ER图
 ##### 数据库创建文件--→[sql/cloud_notes.sql](cloud_notes.sql数据表)
 ##### 数据库ER图   
-![点击前往下载](/appImage/DbERImage.png "数据库ER图")
+![点击前往下载](/appImage/DbERImage.png?raw=true)
 ## 项目截图
 ### APP图标   
 ![点击前往下载](/appImage/AppImage.png "APP图标")
