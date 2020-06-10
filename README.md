@@ -1,4 +1,7 @@
 # CloudNotes 作者：黄结
+```shell script
+sudo chown soldier -R /dev/kvm
+```
 
 ## 2020年春季大三第二学期，Android期末课设：这是一个基于 Android 和 MySql 的云笔记本程序。
 
@@ -58,7 +61,7 @@
 ### 启动动画
 ![点击前往下载](/appImage/StartCartoon.png "启动动画")
 ### 启动界面
-![点击前往下载](/appImage/Start.png "启动界面")
+![点击前往下载](/appImage/StartInter.png "启动界面")
 ### 注册界面
 ![点击前往下载](/appImage/Register.png "注册界面")
 ### 登录界面
